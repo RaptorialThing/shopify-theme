@@ -42,6 +42,12 @@
         "description": {
           "type": "description"
         },
+        "packaging": {
+            "type": "text"
+        },
+        "shippingandreturns": {
+            "type": "text"  
+        },
         "collapsible-row-0": {
           "type": "collapsible_tab",
           "settings": {

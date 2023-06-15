@@ -124,10 +124,10 @@
                 {%- if product.selected_or_first_available_variant.inventory_management == 'shopify' -%}
                   {%- if product.selected_or_first_available_variant.inventory_quantity > 0 -%}
                     {%- if product.selected_or_first_available_variant.inventory_quantity <= block.settings.inventory_threshold -%}
-                      <svg width="15" height="15" aria-hidden="true">
+                     <svg width="15" height="15" aria-hidden="true">
                         <circle cx="7.5" cy="7.5" r="7.5" fill="rgb(238,148,65, 0.3)"/>
                         <circle cx="7.5" cy="7.5" r="5" stroke="rgb(255, 255, 255)" stroke-width="1" fill="rgb(238,148,65)"/>
-                      </svg>
+                      </svg> 
                       {%- if block.settings.show_inventory_quantity -%}
                         {{- 'products.product.inventory_low_stock_show_count' | t: quantity: product.selected_or_first_available_variant.inventory_quantity -}}
                       {%- else -%}
@@ -162,9 +162,50 @@
                 {%- endif -%}
               </p>
             {%- when 'description' -%}
+         
               {%- if product.description != blank -%}
                 <div class="product__description rte quick-add-hidden" {{ block.shopify_attributes }}>
-                  {{ product.description }}
+                 {% comment %}  product.description {% endcomment %}
+
+                  <div class="tabs">
+                      <input type="radio" name="tab-btn" id="tab-btn-1" value="" checked>
+                      <label for="tab-btn-1">Advantages</label>
+                      <input type="radio" name="tab-btn" id="tab-btn-2" value="">
+                      <label for="tab-btn-2">Packaging</label>
+                      <input type="radio" name="tab-btn" id="tab-btn-3" value="">
+                      <label for="tab-btn-3">Shipping and Returns</label>
+                      <div id="content-1">
+
+                       {{ product.description }}
+                      </div>
+                      <div id="content-2">
+                        {%- if product.packaging_variant != blank -%} {{ product.packaging_variant }} {%- endif -%}
+                      {%- for option in product.options_with_values -%}
+
+                          {%- if option.name == "packaging" -%}
+                        
+                            {%  assign option_variant_packaging = option.values[0]  %}
+                            {{ option_variant_packaging }} 
+    
+                          {%- endif -%}
+                          
+                      {%- endfor -%}
+
+                      </div>
+                      <div id="content-3">
+                          {%- for option in product.options_with_values -%}
+
+                              {%- if option.name == "shippingandreturns" -%}
+          
+                              {%  assign option_variant_shippingandreturns = option.values[0]  %}
+                              {{ option_variant_shippingandreturns }} 
+                          
+                              {%- endif -%}
+                          
+                          {%- endfor -%}
+                      </div>
+                  </div>
+
                 </div>
               {%- endif -%}
             {%- when 'sku' -%}
@@ -301,14 +342,14 @@
                 {{- block.settings.text -}}
               </a>
             {%- when 'share' -%}
-              {% assign share_url = product.selected_variant.url | default: product.url | prepend: request.origin %}
-              {% render 'share-button',
+              {% comment %} assign share_url = product.selected_variant.url | default: product.url | prepend: request.origin 
+               render 'share-button',
                 block: block,
                 share_link: share_url
-              %}
+              
 
-            {%- when 'variant_picker' -%}
-              {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
+             when 'variant_picker' 
+               render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id {% endcomment %}
             {%- when 'buy_buttons' -%}
               {%- render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true -%}
             {%- when 'rating' -%}
